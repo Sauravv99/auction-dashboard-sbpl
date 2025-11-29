@@ -10,7 +10,9 @@ const app = express();
 
 const whitelist = [
   'http://localhost:3000',
-  'https://analyticsdashboard-rho.vercel.app/'
+  'http://localhost:3001',
+  'https://auction-dashboard-sbpl.vercel.app/',
+  'https://auction-portal-sbpl.vercel.app/'
 ];
 
 function isAllowedOrigin(origin) {
