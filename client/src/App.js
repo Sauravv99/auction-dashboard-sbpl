@@ -1,10 +1,115 @@
-import React from "react";
-import PlayersManager from "./PlayersManager";
+import React, { useEffect, useState } from "react";
+import AllTeamsComponent from "./components/allTeams/allTeamsComponent";
+import { fetchPlayers } from "./api/players";
+import { TeamSpendingGrid } from "./components/teamspendingGrid/teamsSpendingGrid";
+import HeaderComponent from "./components/headers/header";
+import "./App.css"
+import LiveAuctionBoard from "./components/auction-details/liveAuctionBoard";
 
 function App() {
+  const [players, setPlayers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [teamStats, setTeamStats] = useState([]);
+  const [details, setDetails] = useState(true);
+  const PURSE = 50000000;
+
+  const TEAMS = [
+    "KKR",
+    "CSK",
+    "SSS",
+    "Bombaywala 11",
+    "Director King - Srimali Warriors",
+    "Nagpur Titans",
+  ];
+
+
+   const formatINR = (value) =>
+    new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetchPlayers();
+        console.log("data", data);
+        setPlayers(data || []);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load players");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+
+    useEffect(() => {
+    if (!players || players.length === 0) {
+      const zeroStats = TEAMS.map((team) => ({
+        team,
+        spent: 0,
+        remaining: PURSE,
+        playersBought: 0,
+      }));
+      setTeamStats(zeroStats);
+      return;
+    }
+
+    const spendMap = {};
+    const countMap = {};
+
+    TEAMS.forEach((team) => {
+      spendMap[team] = 0;
+      countMap[team] = 0;
+    });
+
+    players.forEach((player) => {
+      if (player.Sold === "Yes" && spendMap.hasOwnProperty(player.Team)) {
+        spendMap[player.Team] += Number(player.Price || 0);
+        countMap[player.Team] += 1;
+      }
+    });
+
+    const stats = TEAMS.map((team) => {
+      const spent = spendMap[team] || 0;
+      const bought = countMap[team] || 0;
+      const remaining = PURSE - spent;
+
+      return {
+        team,
+        spent,
+        remaining,
+        playersBought: bought,
+      };
+    });
+
+    setTeamStats(stats);
+  }, [players]);
+
   return (
     <div className="App">
-      <PlayersManager />
+       <HeaderComponent
+       details={details} setDetails={setDetails}
+       />
+       {details ? (
+        <LiveAuctionBoard players={players}/>
+       ):(
+         <div className="">
+          <AllTeamsComponent players={players} />
+        </div>
+       )}
+      <div className="mt-4">
+        <TeamSpendingGrid
+          teamStats={teamStats}
+          purse={PURSE}
+          formatINR={formatINR}
+        />
+      </div>
     </div>
   );
 }

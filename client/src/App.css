@@ -1,5 +1,15 @@
 .App {
-  text-align: center;
+    text-align: center;
+    background-color: #282c34;
+    position: absolute;
+    top: 0%;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    overflow-y: scroll;
+}
+
+#id{
+  background-color: #282c34;
 }
 
 .App-logo {
