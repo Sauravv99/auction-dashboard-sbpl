@@ -46,3 +46,23 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+.refresh-btn {
+  border-radius: 999px;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-1px);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

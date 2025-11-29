@@ -32,20 +32,36 @@ function App() {
       maximumFractionDigits: 0,
     }).format(value);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await fetchPlayers();
-        console.log("data", data);
-        setPlayers(data || []);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load players");
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
+
+
+//     useEffect(() => {
+//   const interval = setInterval(() => {
+//     loadPlayers();
+//   }, 15000); // 15 seconds
+
+//   return () => clearInterval(interval);
+// }, []);
+
+
+
+ const loadPlayers = async () => {
+  try {
+    setLoading(true);
+    setError("");
+    const data = await fetchPlayers();
+    setPlayers(data || []);
+  } catch (err) {
+    console.error(err);
+    setError("Failed to load players");
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  loadPlayers();
+}, []);
+
 
 
     useEffect(() => {
@@ -96,6 +112,18 @@ function App() {
        <HeaderComponent
        details={details} setDetails={setDetails}
        />
+       <div className="d-flex justify-content-end px-4 mt-2">
+          <button
+            className="btn btn-outline-light refresh-btn"
+            onClick={loadPlayers}
+            disabled={loading}
+          >
+            {loading ? "⟳ Refreshing" : "⟳ Refresh"}
+          </button>
+      </div>
+
+
+
        {details ? (
         <LiveAuctionBoard players={players}/>
        ):(
