@@ -66,3 +66,68 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+
+/* LIVE REFRESH INDICATOR */
+.live-refresh-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  color: #fff;
+  background: rgba(255, 152, 0, 0.18);
+  border: 1px dashed rgba(255, 152, 0, 0.75);
+  backdrop-filter: blur(6px);
+
+  animation: liveRefreshBlink 1.6s infinite ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.45);
+}
+
+/* Optional glowing dot before text */
+.live-refresh-text::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffeb3b;
+  box-shadow: 0 0 10px rgba(255, 235, 59, 0.9);
+  animation: pulseDot 1.6s infinite ease-in-out;
+}
+
+/* Smooth blink (not aggressive) */
+@keyframes liveRefreshBlink {
+  0% {
+    opacity: 1;
+    border-color: rgba(255, 152, 0, 0.8);
+  }
+  50% {
+    opacity: 0.55;
+    border-color: rgba(255, 152, 0, 0.4);
+  }
+  100% {
+    opacity: 1;
+    border-color: rgba(255, 152, 0, 0.8);
+  }
+}
+
+/* Dot pulse */
+@keyframes pulseDot {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

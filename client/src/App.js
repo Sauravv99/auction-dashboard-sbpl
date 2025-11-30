@@ -3,8 +3,10 @@ import AllTeamsComponent from "./components/allTeams/allTeamsComponent";
 import { fetchPlayers } from "./api/players";
 import { TeamSpendingGrid } from "./components/teamspendingGrid/teamsSpendingGrid";
 import HeaderComponent from "./components/headers/header";
-import "./App.css"
+import "./App.css";
 import LiveAuctionBoard from "./components/auction-details/liveAuctionBoard";
+import LandingPage from "./components/landingPage/landingPage";
+import FooterComponent from "./components/footers/footer";
 
 function App() {
   const [players, setPlayers] = useState([]);
@@ -13,6 +15,7 @@ function App() {
   const [error, setError] = useState("");
   const [teamStats, setTeamStats] = useState([]);
   const [details, setDetails] = useState(true);
+  const [showApp, setshowApp] = useState(false);
   const PURSE = 50000000;
 
   const TEAMS = [
@@ -24,47 +27,40 @@ function App() {
     "Nagpur Titans",
   ];
 
-
-   const formatINR = (value) =>
+  const formatINR = (value) =>
     new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
       maximumFractionDigits: 0,
     }).format(value);
 
+  //     useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     loadPlayers();
+  //   }, 15000); // 15 seconds
 
+  //   return () => clearInterval(interval);
+  // }, []);
 
-//     useEffect(() => {
-//   const interval = setInterval(() => {
-//     loadPlayers();
-//   }, 15000); // 15 seconds
+  const loadPlayers = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await fetchPlayers();
+      setPlayers(data || []);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load players");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-//   return () => clearInterval(interval);
-// }, []);
+  useEffect(() => {
+    loadPlayers();
+  }, []);
 
-
-
- const loadPlayers = async () => {
-  try {
-    setLoading(true);
-    setError("");
-    const data = await fetchPlayers();
-    setPlayers(data || []);
-  } catch (err) {
-    console.error(err);
-    setError("Failed to load players");
-  } finally {
-    setLoading(false);
-  }
-};
-
-useEffect(() => {
-  loadPlayers();
-}, []);
-
-
-
-    useEffect(() => {
+  useEffect(() => {
     if (!players || players.length === 0) {
       const zeroStats = TEAMS.map((team) => ({
         team,
@@ -109,35 +105,45 @@ useEffect(() => {
 
   return (
     <div className="App">
-       <HeaderComponent
-       details={details} setDetails={setDetails}
-       />
-       <div className="d-flex justify-content-end px-4 mt-2">
-          <button
-            className="btn btn-outline-light refresh-btn"
-            onClick={loadPlayers}
-            disabled={loading}
-          >
-            {loading ? "⟳ Refreshing" : "⟳ Refresh"}
-          </button>
-      </div>
+      {showApp ? (
+        <>
+          <HeaderComponent details={details} setDetails={setDetails} />
+          <div className="d-flex justify-content-end px-4 mt-2">
+            <span className="live-refresh-text me-2">
+              Please refresh for latest auction data
+            </span>
 
+            <button
+              className="btn btn-outline-light refresh-btn"
+              onClick={loadPlayers}
+              disabled={loading}
+            >
+              {loading ? "⟳ Refreshing" : "⟳ Refresh"}
+            </button>
+          </div>
 
+          {details ? (
+            <LiveAuctionBoard players={players} />
+          ) : (
+            <div className="">
+              <AllTeamsComponent players={players} />
+            </div>
+          )}
+          <div className="mt-4">
+            <TeamSpendingGrid
+              teamStats={teamStats}
+              purse={PURSE}
+              formatINR={formatINR}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <LandingPage showApp={showApp} setshowApp={setshowApp} />
+        </>
+      )}
 
-       {details ? (
-        <LiveAuctionBoard players={players}/>
-       ):(
-         <div className="">
-          <AllTeamsComponent players={players} />
-        </div>
-       )}
-      <div className="mt-4">
-        <TeamSpendingGrid
-          teamStats={teamStats}
-          purse={PURSE}
-          formatINR={formatINR}
-        />
-      </div>
+      <FooterComponent />
     </div>
   );
 }
