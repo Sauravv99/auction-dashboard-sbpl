@@ -28,11 +28,13 @@ function App() {
   ];
 
   const formatINR = (value) =>
-    new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
+    // new Intl.NumberFormat("en-IN", {
+    //   style: "currency",
+    //   currency: "INR",
+    //   maximumFractionDigits: 0,
+     `pts ${new Intl.NumberFormat("en-IN", {
       maximumFractionDigits: 0,
-    }).format(value);
+    }).format(value)}`;
 
   //     useEffect(() => {
   //   const interval = setInterval(() => {
