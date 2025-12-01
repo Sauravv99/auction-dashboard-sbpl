@@ -130,7 +130,7 @@ const LiveAuctionBoard = ({ players = [], formatINR }) => {
       </div>
 
       {/* FEED */}
-      {false > 0 ? (
+      {players.length > 0 ? (
         <div className="live-feed-list">
           {auctionList.map((p, i) => {
             const sold = isSold(p);
