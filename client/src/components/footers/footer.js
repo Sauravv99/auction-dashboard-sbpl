@@ -1,28 +1,45 @@
 import React from "react";
 import bannerSrc from "../../assests/images/sbpl-logo-1.jpg";
+import sauravAvatar from "../../assests/images/saurav.jpg";
 import "./footer.css";
 
 const FooterComponent = ({ showApp, setshowApp }) => {
   return (
     <div className="">
       <footer className="landing-footer">
-        <div className="footer-organizers">
-          <div className="footer-heading">Organized by</div>
-          <ul className="organizer-list">
-            <li>1. Organizer Name One</li>
-            <li>2. Organizer Name Two</li>
-            <li>3. Organizer Name Three</li>
-            <li>4. Organizer Name Four</li>
-            <li>5. Organizer Name Five</li>
-          </ul>
-        </div>
+      
+        {/* NEW: Your credit + Organizers strip (just below banner) */}
+        <section className="landing-meta">
+          {/* Your credit block */}
+          <div className="meta-designer-card">
+            <div className="meta-designer-left">
+              <div className="meta-avatar">
+                <img src={sauravAvatar} alt="Saurav Nitin Trivedi" />
+              </div>
+              <div className="meta-text">
+                <span className="meta-label">Designed &amp; Developed by</span>
+                <span className="meta-name">Saurav Nitin Trivedi</span>
+              </div>
+            </div>
+          </div>
 
-        <div className="footer-divider" />
+          <div className="meta-divider" />
 
-        <div className="footer-credits">
-          <span className="credits-label">Designed &amp; Developed by</span>
-          <span className="credits-name">Saurav Nitin Trivedi</span>
-        </div>
+          {/* Organizers */}
+          <div className="meta-organizers">
+            <div className="meta-title">Organizing Committee</div>
+            <ul className="meta-list">
+              <li className="organizer-pill">Umendra Trivedi</li>
+              <li className="organizer-pill">Uday Vyas</li>
+              <li className="organizer-pill">Nitin Trivedi</li>
+              <li className="organizer-pill">Satish Dave</li>
+              <li className="organizer-pill">Kishan Dave</li>
+              <li className="organizer-pill">Dilip Trivedi</li>
+              <li className="organizer-pill">Pankaj Trivedi</li>
+              <li className="organizer-pill">Rahul Joshi</li>
+            </ul>
+          </div>
+        </section>
       </footer>
     </div>
   );

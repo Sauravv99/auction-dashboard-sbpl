@@ -171,7 +171,7 @@
 /* TEAM INFO (Sold State) */
 .team-info {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   gap: 8px;
 }
 
@@ -179,6 +179,10 @@
   font-size: 0.85rem;
   font-weight: 600;
   opacity: 0.9;
+  white-space: nowrap;
+}
+
+.last-team{
   white-space: nowrap;
 }
 
@@ -191,8 +195,14 @@
 
   .team-name {
     max-width: 140px;
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
+  }
+  
+  .last-team{
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+      text-overflow: ellipsis;
   }
 }
 
@@ -200,4 +210,44 @@
 .player-status{
   float: left;
   color: aquamarine;
+}
+
+
+
+
+
+
+/* Auction status (simple & informative) */
+.auction-status-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Small activity dot */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffdd55;
+  animation: statusBlink 1.6s ease-in-out infinite;
+}
+
+/* Very subtle dot pulse */
+@keyframes statusBlink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
 }

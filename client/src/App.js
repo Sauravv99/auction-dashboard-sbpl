@@ -123,7 +123,7 @@ function App() {
           </div>
 
           {details ? (
-            <LiveAuctionBoard players={players} />
+            <LiveAuctionBoard players={players}    formatINR={formatINR}/>
           ) : (
             <div className="">
               <AllTeamsComponent players={players} />
@@ -142,8 +142,11 @@ function App() {
           <LandingPage showApp={showApp} setshowApp={setshowApp} />
         </>
       )}
-
-      <FooterComponent />
+      {showApp ? (
+            <FooterComponent />
+      ):(
+      ""
+      )}
     </div>
   );
 }
