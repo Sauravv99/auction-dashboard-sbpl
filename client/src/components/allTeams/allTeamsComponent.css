@@ -87,6 +87,7 @@
   font-size: 0.9rem;
   padding: 3px 0;
   border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  cursor: pointer;
 }
 
 .player-row:last-child {
@@ -102,6 +103,7 @@
 .player-name {
   /* flex: 1; */
   font-weight: 500;
+  /* cursor: pointer; */
 }
 
 /* Footer text */
@@ -139,4 +141,9 @@
     margin-top: 10%;
 }
 
+}
+
+.player-row:hover {
+    background: rgba(30, 64, 175, 0.6);
+    border-color: rgba(129, 140, 248, 0.7);
 }

@@ -1,13 +1,18 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import kkrLogo from "../../assests/images/KKR-logo.jpg";
 import cskLogo from "../../assests/images/CSK-logo.jpg";
 import bwLogo from "../../assests/images/Bombaywala 11-logo.jpg";
 import sssLogo from "../../assests/images/SSS-logo.jpg";
 import swLogo from "../../assests/images/Director King - Srimali Warriors-logo.jpg";
 import ntLogo from "../../assests/images/Nagpur Titans-logo.jpg";
+import PlayerDetailsModal from "../auction-details/PlayerDetailsModal";
 import "./allTeamsComponent.css";
 
 const AllTeamsComponent = ({ players = [] }) => {
+
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
   // ✅ Group ALL players by Team (no Reserved filter)
   const teams = useMemo(() => {
     const grouped = {};
@@ -95,9 +100,14 @@ const AllTeamsComponent = ({ players = [] }) => {
                     <div
                       key={p["Sr No"] ?? p.SrNo ?? p.PlayerName}
                       className="player-row"
+                        onClick={() => {
+                          setSelectedPlayer(p);
+                          setIsModalOpen(true);
+                        }}
                     >
                       <span className="player-index">{index + 1}.</span>
-                      <span className="player-name">{p.PlayerName}</span>
+                      <span className="player-name">{p.PlayerName}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -110,6 +120,12 @@ const AllTeamsComponent = ({ players = [] }) => {
           );
         })}
       </div>
+        <PlayerDetailsModal
+        player={selectedPlayer}
+        teamDisplayName={TEAM_NAMES[selectedPlayer?.Team]}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

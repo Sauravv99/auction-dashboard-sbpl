@@ -33,7 +33,7 @@ function App() {
     //   style: "currency",
     //   currency: "INR",
     //   maximumFractionDigits: 0,
-     `pts ${new Intl.NumberFormat("en-IN", {
+    `pts ${new Intl.NumberFormat("en-IN", {
       maximumFractionDigits: 0,
     }).format(value)}`;
 
@@ -112,21 +112,25 @@ function App() {
         <>
           <HeaderComponent details={details} setDetails={setDetails} />
           <div className="d-flex justify-content-end px-4 mt-2">
-            <span className="live-refresh-text me-2">
-              Please refresh for latest auction data
-            </span>
+            {/* <span className="live-refresh-text me-2"  onClick={loadPlayers}>
+              Click to refresh for latest data
+               {loading ? "⟳ Refreshing... fetching latest data" : "Click to refresh for latest data"}
+            </span> */}
 
             <button
-              className="btn btn-outline-light refresh-btn"
+              className=" btn-outline-light refresh-btn live-refresh-text"
               onClick={loadPlayers}
               disabled={loading}
             >
-              {loading ? "⟳ Refreshing" : "⟳ Refresh"}
+              {loading ? "⟳ Refreshing... fetching latest data" : "Click here for latest data"}
             </button>
+          </div>
+          <div className="player-hint-center">
+            Click on the player’s name for details
           </div>
 
           {details ? (
-            <LiveAuctionBoard players={players}    formatINR={formatINR}/>
+            <LiveAuctionBoard players={players} formatINR={formatINR} />
           ) : (
             <div className="">
               <AllTeamsComponent players={players} />
@@ -145,11 +149,7 @@ function App() {
           <LandingPage showApp={showApp} setshowApp={setshowApp} />
         </>
       )}
-      {showApp ? (
-            <FooterComponent />
-      ):(
-      ""
-      )}
+      {showApp ? <FooterComponent /> : ""}
       {/* <Analytics/> */}
     </div>
   );
