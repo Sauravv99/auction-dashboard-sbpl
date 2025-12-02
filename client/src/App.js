@@ -111,7 +111,7 @@ function App() {
       {showApp ? (
         <>
           <HeaderComponent details={details} setDetails={setDetails} />
-          <div className="d-flex justify-content-end px-4 mt-2">
+          <div className="d-flex justify-content-center px-4 mt-2">
             {/* <span className="live-refresh-text me-2"  onClick={loadPlayers}>
               Click to refresh for latest data
                {loading ? "⟳ Refreshing... fetching latest data" : "Click to refresh for latest data"}
