@@ -7,7 +7,7 @@ import "./App.css";
 import LiveAuctionBoard from "./components/auction-details/liveAuctionBoard";
 import LandingPage from "./components/landingPage/landingPage";
 import FooterComponent from "./components/footers/footer";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [players, setPlayers] = useState([]);
@@ -150,7 +150,7 @@ function App() {
       ):(
       ""
       )}
-      <Analytics/>
+      {/* <Analytics/> */}
     </div>
   );
 }
