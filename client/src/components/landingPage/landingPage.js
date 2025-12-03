@@ -1,6 +1,6 @@
 import React from "react";
 import bannerSrc from "../../assests/images/sbpl-logo-1.jpg";
-import sauravAvatar from "../../assests/images/saurav.jpg";
+import sauravAvatar from "../../assests/images/image-saurav.jpg";
 import "./landingPage.css";
 
 const LandingPage = ({ showApp, setshowApp }) => {
