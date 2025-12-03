@@ -169,6 +169,7 @@
   border: 1px solid rgba(255, 202, 40, 0.35);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(6px);
+  cursor: pointer;
 }
 
 .meta-designer-left {

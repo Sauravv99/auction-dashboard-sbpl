@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import sauravImage from "../../assests/images/image-saurav.jpg";
 import "./playerDetailsModal.css";
 
 // If you're using CRA/Webpack, this will work.
@@ -80,7 +81,7 @@ const PlayerDetailsModal = ({ player, teamDisplayName, isOpen, onClose }) => {
           <div className="player-modal-avatar-wrapper">
             {imgSrc ? (
               <img
-                src={imgSrc}
+                src={player.admin ? sauravImage : imgSrc}
                 alt={player.PlayerName}
                 className="player-modal-avatar"
               />

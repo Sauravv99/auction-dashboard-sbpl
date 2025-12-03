@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import bannerSrc from "../../assests/images/sbpl-logo-1.jpg";
 import sauravAvatar from "../../assests/images/image-saurav.jpg";
 import "./landingPage.css";
+import PlayerDetailsModal from "../auction-details/PlayerDetailsModal";
 
 const LandingPage = ({ showApp, setshowApp }) => {
+  const selectedPlayer = {
+    "Sr No": 19,
+    "Team": "Developed Auction Dashboard",
+    "PlayerName": "Saurav Nitin Trivedi",
+    "Address": "Nagpur",
+    "DOB": "16-12-1999",
+    "Contact": "8766728876",
+    "Speciality": "",
+    "Price": 0,
+    "Sold": "No",
+    "last-updated": 1764570582944,
+    "Reserved": false,
+    "Image": "",
+    "admin":true
+}
+    const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="landing-page-root">
       {/* Hero / Banner Section */}
@@ -67,7 +84,10 @@ const LandingPage = ({ showApp, setshowApp }) => {
       {/* NEW: Your credit + Organizers strip (just below banner) */}
       <section className="landing-meta">
         {/* Your credit block */}
-        <div className="meta-designer-card">
+        <div className="meta-designer-card"  
+              onClick={() => {
+                    setIsModalOpen(true);
+              }}>
           <div className="meta-designer-left">
             <div className="meta-avatar">
               <img src={sauravAvatar} alt="Saurav Nitin Trivedi" />
@@ -121,6 +141,13 @@ const LandingPage = ({ showApp, setshowApp }) => {
           </p>
         </div>
       </section>
+      
+      <PlayerDetailsModal
+        player={selectedPlayer}
+        teamDisplayName="Developed Auction Dashboard"
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
