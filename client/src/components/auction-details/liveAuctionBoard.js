@@ -46,11 +46,32 @@ const LiveAuctionBoard = ({ players = [], formatINR }) => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // const auctionList = useMemo(() => {
+  //   return players
+  //     .filter(isReservedFalse)
+  //     .sort((a, b) => (isSold(b) ? 1 : 0) - (isSold(a) ? 1 : 0));
+  // }, [players]);
+
+
   const auctionList = useMemo(() => {
-    return players
-      .filter(isReservedFalse)
-      .sort((a, b) => (isSold(b) ? 1 : 0) - (isSold(a) ? 1 : 0));
-  }, [players]);
+  const eligible = players.filter(isReservedFalse);
+
+  const getTs = (p) =>
+    Number(p["last-updated"] ?? p.lastUpdated ?? p.lastUpdatedAt ?? 0);
+
+  const soldPlayers = eligible.filter(isSold);
+  const unsoldPlayers = eligible.filter((p) => !isSold(p));
+
+  // 1) Sold players: newest first by last-updated
+  soldPlayers.sort((a, b) => getTs(b) - getTs(a));
+
+  // 2) Unsold players: random order
+  const shuffledUnsold = [...unsoldPlayers].sort(() => Math.random() - 0.5);
+
+  // 3) Final list: all sold (latest first) then random unsold
+  return [...soldPlayers, ...shuffledUnsold];
+}, [players]);
+
 
   // ✅ last sold player = sold player with latest "last-updated" timestamp
   const lastSoldFromTime = useMemo(() => {
