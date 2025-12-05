@@ -9,11 +9,22 @@ import PlayerDetailsModal from "../auction-details/PlayerDetailsModal";
 import "./allTeamsComponent.css";
 
 const AllTeamsComponent = ({ players = [] }) => {
-
-    const [selectedPlayer, setSelectedPlayer] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // ✅ Group ALL players by Team (no Reserved filter)
+  // const teams = useMemo(() => {
+  //   const grouped = {};
+
+  //   (players || []).forEach((p) => {
+  //     const teamName = p.Team || "No Team";
+  //     if (!grouped[teamName]) grouped[teamName] = [];
+  //     grouped[teamName].push(p);
+  //   });
+
+  //   return Object.entries(grouped); // [teamName, players[]]
+  // }, [players]);
+
   const teams = useMemo(() => {
     const grouped = {};
 
@@ -23,15 +34,26 @@ const AllTeamsComponent = ({ players = [] }) => {
       grouped[teamName].push(p);
     });
 
+    // helper to shuffle an array without mutating original
+    const shuffle = (arr) => {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    };
+
+    // 🔀 ONLY shuffle players for team "Not Reserved"
+    if (grouped["Not Reserved"]) {
+      grouped["Not Reserved"] = shuffle(grouped["Not Reserved"]);
+    }
+
     return Object.entries(grouped); // [teamName, players[]]
   }, [players]);
 
   if (teams.length === 0) {
-    return (
-      <div className="alert alert-info my-3">
-        No players found.
-      </div>
-    );
+    return <div className="alert alert-info my-3">Loading players.. Please wait</div>;
   }
 
   // Logos and display names (same as carousel)
@@ -61,7 +83,7 @@ const AllTeamsComponent = ({ players = [] }) => {
 
           // still limiting to 5 for display; remove .slice if you want full list
           // const playersToShow = teamPlayers.slice(0, 5);
-          const playersToShow = teamPlayers
+          const playersToShow = teamPlayers;
 
           return (
             <div key={teamName} className="reserved-team-card shadow-lg">
@@ -100,14 +122,13 @@ const AllTeamsComponent = ({ players = [] }) => {
                     <div
                       key={p["Sr No"] ?? p.SrNo ?? p.PlayerName}
                       className="player-row"
-                        onClick={() => {
-                          setSelectedPlayer(p);
-                          setIsModalOpen(true);
-                        }}
+                      onClick={() => {
+                        setSelectedPlayer(p);
+                        setIsModalOpen(true);
+                      }}
                     >
                       <span className="player-index">{index + 1}.</span>
-                      <span className="player-name">{p.PlayerName}
-                      </span>
+                      <span className="player-name">{p.PlayerName}</span>
                     </div>
                   ))}
                 </div>
@@ -120,7 +141,7 @@ const AllTeamsComponent = ({ players = [] }) => {
           );
         })}
       </div>
-        <PlayerDetailsModal
+      <PlayerDetailsModal
         player={selectedPlayer}
         teamDisplayName={TEAM_NAMES[selectedPlayer?.Team]}
         isOpen={isModalOpen}
