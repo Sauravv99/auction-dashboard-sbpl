@@ -6,6 +6,7 @@ export async function fetchPlayers() {
   const res = await fetch(`${API_BASE}/api/players`);
   if (!res.ok) throw new Error("Failed to fetch players");
   return res.json(); // this is the array from backend
+  
 }
 
 export async function updatePlayers(playersArray) {
